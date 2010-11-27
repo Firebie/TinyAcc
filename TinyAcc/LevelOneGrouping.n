@@ -46,8 +46,11 @@ namespace tinyacc
     {
       WriteLine("Level 1 grouping");
       WriteLine("--------------------");
+      
+      def nameLen = items.FoldLeft(0, (x, len) => Math.Max(x.Name.Length, len));
+      
       foreach (item in items)
-        WriteLine(String.Format("{0,15} {1,3}   credit:{2,5}   debit:{3,5}",
+        WriteLine(String.Format($"{0,$(nameLen + 3)} {1,3}   credit:{2,5}   debit:{3,5}",
           item.Name, item.Currency, Convert.ToInt32(item.Credit), Convert.ToInt32(item.Debit)));
     }
   }

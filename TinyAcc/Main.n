@@ -23,7 +23,7 @@ module Program
       
       def curConv  = CurrencyConverter();
       def accounts = Accounts();
-      def levelOne   = LevelOneGrouping();
+      def levelOne = LevelOneGrouping();
       
       ParseFiles(files, records);
       
@@ -37,8 +37,8 @@ module Program
             accounts.DebitOrCredit(oper, curConv);
             levelOne.DebitOrCredit(oper);
         | Bad as bad => 
-          WriteLine(bad.GetMessage($"Can't recognize text: '$(bad.Location.GetText())'"));
-          errors = true;
+            WriteLine(bad.GetMessage($"Can't recognize text: '$(bad.Location.GetText())'"));
+            errors = true;
       }
       
       when (!errors)
