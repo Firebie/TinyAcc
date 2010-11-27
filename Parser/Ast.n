@@ -1,0 +1,52 @@
+﻿using System;
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using Nemerle.Peg;
+
+namespace tinyacc
+{
+  /// <summary>
+  /// Description of Ast.
+  /// </summary>
+  public enum OperationType
+  {
+    | Debit
+    | Credit
+  }
+  public variant Ast : Located
+  {
+    | Rate
+      {
+        From : string;
+        To   : string;
+        Course       : double;
+      }
+
+    | Account 
+      {
+        Name     : string;
+        Currency : string;
+        Balance  : double;
+      }
+
+    | Operation
+      {
+        OperationType : OperationType;
+        Amount        : double;
+        Currency      : string;
+        AccountName   : string;
+        Name          : string;
+      }
+
+    | Bad
+
+    public GetMessage(msg : string) : string
+    {
+      def pos = Location.StartPos;
+      def len = Location.EndPos - Location.StartPos;
+      $"$(Location.Source.FileName)$(Location.StartLineColumn.ToString()):[$pos:$len]: $msg"
+    }
+  }
+}

@@ -1,0 +1,32 @@
+﻿using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace tinyacc
+{
+  /// <summary>
+  /// Description of Utils.
+  /// </summary>
+  module Utils
+  {
+    public EqualString(this s1 : string, s2 : string) : bool
+    {
+      String.Compare(s1, s2, true) == 0
+    }
+  }
+
+  class AccException : Exception
+  {
+    public rec : Ast;
+    
+    public this(text : string, rec : Ast)
+    {
+      base(text);
+      this.rec = rec;
+    }
+  }
+}

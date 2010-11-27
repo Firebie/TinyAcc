@@ -1,0 +1,66 @@
+﻿using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace tinyacc
+{
+  [Record]
+  class CurrencyCourse
+  {
+    [Accessor] public from : string;
+    [Accessor] public to   : string;
+    [Accessor(flags=WantSetter)] public mutable course : double;
+  }
+
+  class CurrencyConverter
+  {
+    private currencies : List[CurrencyCourse] = List.[CurrencyCourse]();
+    
+    private Find(from : string, to : string) : CurrencyCourse
+    {
+      currencies.Find(x => x.From.EqualString(from) && x.To.EqualString(to))
+    }
+    
+    public Add(rate : Ast.Rate) : void
+    {
+      when (rate.Course == 0.0)
+        throw AccException("Rate can't be 0", rate);
+        
+      def cur = Find(rate.From, rate.To);
+      if (cur != null)
+        cur.Course = rate.Course;
+      else
+      {
+        def cur = Find(rate.To, rate.From);
+        if (cur != null)
+          cur.Course = 1.0 / rate.Course;
+        else
+          currencies.Add(CurrencyCourse(rate.From, rate.To, rate.Course));
+      }
+    }
+    
+    public Get(from : string, to : string, rec : Ast) : double
+    {
+      if (from.EqualString(to))
+        1.0
+      else
+      {
+        def c = Find(from, to);
+        if (c != null)
+          c.Course;
+        else
+        {
+          def c = Find(to, from);
+          if (c != null)
+            1.0 / c.Course;
+          else
+            throw AccException($"Can't find convertion from '$from' to '$to'.", rec);
+        }
+      }
+    }
+  }
+}

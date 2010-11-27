@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Console;
+using System.IO;
+using System.Text;
+
+using Nemerle.Collections;
+using Nemerle.Utility;
+using Nemerle.Imperative;
+
+using tinyacc;
+
+module Program
+{
+  Main(arg : array[string]) : void
+  {
+    try
+    {
+      def files = List.[string]();
+      GetFiles(if (arg.Length == 1) arg[0] else ".", files);
+      
+      def records = List.[Ast]();
+      
+      def curConv  = CurrencyConverter();
+      def accounts = Accounts();
+      def levelOne   = LevelOneGrouping();
+      
+      ParseFiles(files, records);
+      
+      mutable errors = false;
+      
+      foreach (rec in records)
+      {
+        | Rate as rate => curConv.Add(rate)
+        | Account as acc => accounts.Add(acc)
+        | Operation as oper => 
+            accounts.DebitOrCredit(oper, curConv);
+            levelOne.DebitOrCredit(oper);
+        | Bad as bad => 
+          WriteLine(bad.GetMessage($"Can't recognize text: '$(bad.Location.GetText())'"));
+          errors = true;
+      }
+      
+      when (!errors)
+      {
+        levelOne.Print();
+        accounts.Print();
+      }
+    }
+    catch
+    {
+      | e is Exception => WriteLine($"Error: $(e.Message)");
+      | e is AccException => WriteLine(e.rec.GetMessage($"$(e.Message): '$(e.rec.Location.GetText())'"))
+    }
+  }
+
+  
+  private ParseFiles(files : List.[string], records : List.[Ast]) : void
+  {
+    foreach (file in files)
+      ParseFile(file, records)
+  }
+
+  private ParseFile(file : string, recs : List[Ast]) : void
+  {
+    def text = File.ReadAllText(file, Encoding.GetEncoding(1251));
+    def fileRecs = match (AccParser().Parse(Nemerle.Peg.SourceSnapshot(text, 0, file)))
+    {
+      | None => List.[Ast]()
+      | Some(result) => result
+    }
+    
+    recs.AddRange(fileRecs);
+  }
+  
+  private GetFiles(folder : string, files : List[string]) : void
+  {
+    files.AddRange(Directory.GetFiles(folder, "*.txt").ToList().Sort((x, y) => (String.Compare(x, y, true))));
+    
+    def folders = Directory.GetDirectories(folder).ToList().Sort((x, y) => (String.Compare(x, y, true)));
+    foreach (f in folders)
+      GetFiles(f, files);
+  }
+}

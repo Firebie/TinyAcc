@@ -1,0 +1,7 @@
+Parser/bin/
+Parser/obj/
+Parser/time.txt
+
+TinyAcc/bin/
+TinyAcc/obj/
+TinyAcc.suo

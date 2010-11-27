@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+
+using Nemerle.Collections;
+using Nemerle.Text;
+using Nemerle.Utility;
+
+using Nemerle.Peg;
+
+namespace tinyacc
+{
+  [PegGrammar(start,
+  grammar
+  {
+    any = ['\u0000'..'\uFFFF'];
+
+    #region White space
+
+    whitespace = [Zs]
+              / '\t'
+              / '\v'        /*  vertial tab          */
+              / '\f';       /*  form feed            */
+
+    #endregion
+
+    #region Line terminators
+
+    newLineCharacter = '\n'
+                      / '\r'
+                      / '\u2028'    /*  line separator       */
+                      / '\u2029';   /*  paragraph separator  */
+    newLine   = ("\r\n" / newLineCharacter);
+
+    #endregion
+
+    #region Comments
+
+    singleLineComment = "//" (!newLineCharacter any)*;
+    delimitedComment  = "/*" (!"*/" any)* "*/";
+    comment           = singleLineComment / delimitedComment;
+
+    #endregion
+
+    #region Spacer
+
+    space : Void = whitespace / newLine / comment;
+    
+    semicolon : Void = ";" space*;
+
+    #endregion
+
+    #region Identifiers
+    
+    decimalDigit    = ['0'..'9'];
+    combiningCharacter    = [Mn, Mc];
+    decimalDigitCharacter = [Nd];
+    connectingCharacter   = [Pc];
+    formattingCharacter   = [Cf];
+    letterCharacter = [Lu, Ll, Lt, Lm, Lo, Nl] / '$' / '+' / '-';
+    
+    #endregion
+
+    identifierStartCharacter  = letterCharacter / "_";
+    identifierPartCharacters  = letterCharacter / decimalDigitCharacter / connectingCharacter / combiningCharacter / formattingCharacter;
+    identifierBody            = identifierStartCharacter identifierPartCharacters*;
+    identifier                = identifierBody;
+    
+    name = identifier;
+    
+    number = decimalDigit* "." decimalDigit+ / decimalDigit*;
+
+    accountName   = name;
+    currencyName  = name;
+    operationName = name;
+    
+    rate : Ast = "rate" space+ currencyName space+ currencyName space+ number semicolon;
+    account : Ast = "account" space+ currencyName space+ number space+ accountName space* semicolon;
+    creditOrDebit : Ast = ('+'/ '-') space* number space+ currencyName space+ accountName space+ operationName space* semicolon;
+    badRecord : Ast = (!semicolon any)* semicolon;
+    
+    definition : Ast = (rate / account / creditOrDebit / badRecord) space*;
+    
+    start : List[Ast] = space* definition* !any;
+  })]
+
+  public class AccParser
+  {
+    badRecord(_ : NToken) : Ast
+    {
+      Ast.Bad()
+    }
+
+    rate(_ : NToken, currencyNameFrom : NToken, currencyNameTo : NToken, course : NToken) : Ast
+    {
+      Ast.Rate(GetText(currencyNameFrom), GetText(currencyNameTo), Convert.ToDouble(GetText(course)));
+    }
+
+    account(_ : NToken, currencyName : NToken, balance : NToken, accountName : NToken) : Ast
+    {
+      Ast.Account(GetText(accountName), GetText(currencyName), Convert.ToDouble(GetText(balance)));
+    }
+
+    creditOrDebit(operation : NToken,  amount : NToken, currencyName : NToken, accountName : NToken, operationName : NToken) : Ast
+    {
+      def op = match(GetText(operation))
+      {
+        | "-" => OperationType.Debit
+        | "+" => OperationType.Credit
+        | _   => OperationType.Credit
+      }
+      
+      Ast.Operation(op, Convert.ToDouble(GetText(amount)), GetText(currencyName), GetText(accountName), GetText(operationName));
+    }
+
+    definition(rec : Ast) : Ast
+    {
+      rec
+    }
+    
+    start(recs : List[Ast] ) : List[Ast]
+    {
+      recs
+    }
+    
+    //semicolon(semicol : NToken) : NToken
+    //{
+    //  semicol
+    //}
+  }
+}
