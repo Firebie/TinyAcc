@@ -1,0 +1,81 @@
+//# rate P $ 2.920 //коэффициент пересчета тыс€ч белорусских рублей в доллары
+//                 //€ привык вести расчет в тыс€чах 
+
+//блок описани€ счетов с начальными сальдо. ‘ормат = валюта, начальное сальдо и название счета
+//# account   P   24 HP  //Ќаличные рубли
+//# account   $  275 K1  //перва€ карточка, баксова€
+//# account   $  140 K2  //втора€ карточка, баксова€
+
+account   e  0 a1;
+account   e  0 c1;
+account   e  0 cash;
+
+
+//далее внос€тс€ операции. ‘ормат: код операции + или -, валюта операции, 
+//сумма, код, комментарий
+- 200     e a1      -withdrawal;
++ 200     e cash    +withdrawal;
+-  11     e cash    medicine; // антиаллерги€ и капли дл€ носа
+-  20     e cash    fuel;
+-  11.5   e cash    food; // marangos
+-   8.83  e cash    food; // water + juice
+-  15     e cash    food; // products
+-  35     e cash    car;  // m.o.t.
+-  10.2   e cash    medicine; 
+- 400     e a1      -withdrawal;
++ 400     e cash    +withdrawal; 
+- 300     e a1      -withdrawal; 
++ 300     e cash    +withdrawal; 
+// 17.11.2010
+-  18     e cash    food; // alfamega
+- 630     e cash    rent;
+-  11.2   e cash    food; // souvlaka
+-  30     e cash    fuel;
+// 17.11.2010
+- 300     e a1      -withdrawal ;
++ 300     e cash    +withdrawal ;
+- 322     e cash    h-electricity;
+-  15     e cash    food; // kapatsos
+// 18.11.2010
+-  50     e cash    doctor;
+-  18     e cash    food;
+// 19.11.2010
+-  22     e cash    medicine;
+-  22     e cash    hair;
+-   7     e cash    entertiment; // park palacio
+-   6     e a1      h-water;
+-  24.5   e a1      internet;
+-   7     e a1      food;
+// 20.11.2010
+-  10     e cash    tickets; // salamis
+-  15.5   e cash    food;
+-   2.3   e cash    h-maintenance;
+-   4.5   e cash    food;
+// 22.11.2010
+-   7.1   e cash    food;
+-  14.65  e cash    food ;
+
+// 23.11.2010
+-  11.5   e cash    food;
+-  14.6   e cash    food;
+
+// 24.11.2010
+-   2.60  e cash    food;
+        
+// 25.11.2010
+-  25     e cash    fuel;
+-   5.80  e cash    food;
+- 190     e cash    education;
+
+// 26.11.2010
+-  27.53  e cash food;
+-  28.13  e cash food;
+-  23.71  e cash food;
+-  23     e cash medicine;
+// 27.11.2010
+-  12     e cash clothes;
+-  14     e cash clothes;
+-   7     e cash food;
+-   7     e cash new-year-items;
+-  10     e cash clothes;
+// 
