@@ -35,6 +35,13 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>bin\Release\TinyAcc</DocumentationFile>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <StartProgram>
+    </StartProgram>
+    <WorkingDirectory>C:\MyUsers\programs\manysrc\projects\GitHub\TinyAcc\TinyAcc\bin\Debug</WorkingDirectory>
+    <CmdArgs>
+    </CmdArgs>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Reference Include="System" />

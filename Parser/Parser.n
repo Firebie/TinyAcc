@@ -77,8 +77,9 @@ namespace tinyacc
     account : Ast = "account" space+ currencyName space+ number space+ accountName space* semicolon;
     creditOrDebit : Ast = ('+'/ '-') space* number space+ currencyName space+ accountName space+ operationName space* semicolon;
     badRecord : Ast = (!semicolon any)* semicolon;
+    veryBadRecord : Ast = any+;
     
-    definition : Ast = (rate / account / creditOrDebit / badRecord) space*;
+    definition : Ast = (rate / account / creditOrDebit / badRecord / veryBadRecord) space*;
     
     start : List[Ast] = space* definition* !any;
   })]
@@ -90,6 +91,11 @@ namespace tinyacc
       Ast.Bad()
     }
 
+    veryBadRecord(d : NToken) : Ast
+    {
+      Ast.Bad()
+    }
+    
     rate(_ : NToken, currencyNameFrom : NToken, currencyNameTo : NToken, course : NToken) : Ast
     {
       Ast.Rate(GetText(currencyNameFrom), GetText(currencyNameTo), Convert.ToDouble(GetText(course)));

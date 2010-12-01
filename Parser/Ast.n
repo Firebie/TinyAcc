@@ -44,9 +44,10 @@ namespace tinyacc
 
     public GetMessage(msg : string) : string
     {
-      def pos = Location.StartPos;
-      def len = Location.EndPos - Location.StartPos;
-      $"$(Location.Source.FileName)$(Location.StartLineColumn.ToString()):[$pos:$len]: $msg"
+      //def pos = Location.StartPos;
+      //def len = Location.EndPos - Location.StartPos;
+      //$"$(Location.Source.FileName)$(Location.StartLineColumn.ToString()):[$pos:$len]: $msg"
+      $"$(Location.Source.FileName)$(Location.StartLineColumn.ToString()): $msg"
     }
   }
 }
