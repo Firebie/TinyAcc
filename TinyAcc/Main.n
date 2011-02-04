@@ -37,7 +37,7 @@ module Program
             accounts.DebitOrCredit(oper, curConv);
             levelOne.DebitOrCredit(oper);
         | Bad as bad => 
-            WriteLine(bad.GetMessage($"Can't recognize text: \"$(bad.Location.GetText().Trim())\""));
+            WriteLine(bad.GetMessage($"Can't recognize a text: \"$(bad.Location.GetText().Trim())\""));
             errors = true;
       }
       

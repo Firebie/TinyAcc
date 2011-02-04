@@ -91,7 +91,7 @@ namespace tinyacc
       Ast.Bad()
     }
 
-    veryBadRecord(d : NToken) : Ast
+    veryBadRecord(_ : NToken) : Ast
     {
       Ast.Bad()
     }
@@ -117,20 +117,5 @@ namespace tinyacc
       
       Ast.Operation(op, Convert.ToDouble(GetText(amount)), GetText(currencyName), GetText(accountName), GetText(operationName));
     }
-
-    definition(rec : Ast) : Ast
-    {
-      rec
-    }
-    
-    start(recs : List[Ast] ) : List[Ast]
-    {
-      recs
-    }
-    
-    //semicolon(semicol : NToken) : NToken
-    //{
-    //  semicol
-    //}
   }
 }
