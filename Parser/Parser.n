@@ -12,7 +12,7 @@ namespace tinyacc
   [PegGrammar(Options = EmitDebugSources, start,
   grammar
   {
-    Any = ['\u0000'..'\uFFFF'];
+    any = ['\u0000'..'\uFFFF'];
 
     #region White space
 
@@ -35,8 +35,8 @@ namespace tinyacc
 
     #region Comments
 
-    singleLineComment = "//" (!newLineCharacter Any)*;
-    delimitedComment  = "/*" (!"*/" Any)* "*/";
+    singleLineComment = "//" (!newLineCharacter any)*;
+    delimitedComment  = "/*" (!"*/" any)* "*/";
     comment           = singleLineComment / delimitedComment;
 
     #endregion
@@ -76,12 +76,12 @@ namespace tinyacc
     rate : Ast = "rate" space+ currencyName space+ currencyName space+ number semicolon;
     account : Ast = "account" space+ currencyName space+ number space+ accountName space* semicolon;
     creditOrDebit : Ast = ('+'/ '-') space* number space+ currencyName space+ accountName space+ operationName space* semicolon;
-    badRecord : Ast = (!semicolon Any)* semicolon;
-    veryBadRecord : Ast = Any+;
+    badRecord : Ast = (!semicolon any)* semicolon;
+    veryBadRecord : Ast = any+;
     
     definition : Ast = (rate / account / creditOrDebit / badRecord / veryBadRecord) space*;
     
-    start : List[Ast] = space* definition* !Any;
+    start : List[Ast] = space* definition* !any;
   })]
 
   public class AccParser
