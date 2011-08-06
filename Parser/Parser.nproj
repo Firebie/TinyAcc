@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="3.5" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <NoStdLib>true</NoStdLib>
-    <Nemerle Condition=" '$(Nemerle)' == '' ">$(ProgramFiles)\Nemerle</Nemerle>
+    <Nemerle Condition=" '$(Nemerle)' == '' ">$(ProgramFiles)\Nemerle\Net-4.0</Nemerle>
     <Name>Parser</Name>
   </PropertyGroup>
   <PropertyGroup>
@@ -15,7 +15,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Parser</RootNamespace>
     <AssemblyName>Parser</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -37,11 +37,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Nemerle.Peg, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+    <Reference Include="Nemerle.Peg, Version=1.0.0.159, Culture=neutral, PublicKeyToken=null">
       <Name>Nemerle.Peg</Name>
       <AssemblyName>Nemerle.Peg.dll</AssemblyName>
       <HintPath>$(Nemerle)\Nemerle.Peg.dll</HintPath>
-      <Private>True</Private>
+    </Reference>
+    <Reference Include="Nemerle.Peg.Macros, Version=1.0.0.159, Culture=neutral, PublicKeyToken=null">
+      <Name>Nemerle.Peg.Macros</Name>
+      <AssemblyName>Nemerle.Peg.Macros.dll</AssemblyName>
+      <HintPath>$(Nemerle)\Nemerle.Peg.Macros.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">

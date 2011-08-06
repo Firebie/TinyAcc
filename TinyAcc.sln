@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "Parser-VS_2010", "Parser\Parser-VS_2010.nproj", "{4E951655-3DFF-4737-A348-0779570F48C0}"
+Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "Parser", "Parser\Parser.nproj", "{4E951655-3DFF-4737-A348-0779570F48C0}"
 EndProject
-Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "TinyAcc-VS_2010", "TinyAcc\TinyAcc-VS_2010.nproj", "{FBDDD4EE-0D10-4DD6-A8AF-213FAC1834EE}"
+Project("{EDCC3B85-0BAD-11DB-BC1A-00112FDE8B61}") = "TinyAcc", "TinyAcc\TinyAcc.nproj", "{FBDDD4EE-0D10-4DD6-A8AF-213FAC1834EE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
