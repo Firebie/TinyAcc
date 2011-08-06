@@ -78,8 +78,6 @@ module Program
     files.AddRange(Directory.GetFiles(folder, "*.txt"));
     files.Sort((x, y) => (String.Compare(x, y, true)));
     
-    //files.AddRange(Directory.GetFiles(folder, "*.txt").ToList().Sort((x, y) => (String.Compare(x, y, true))));
-    
     def folders = List(Directory.GetDirectories(folder));
     folders.Sort((x, y) => (String.Compare(x, y, true)));
     foreach (f in folders)
