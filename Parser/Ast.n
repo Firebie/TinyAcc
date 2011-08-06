@@ -15,6 +15,7 @@ namespace tinyacc
     | Debit
     | Credit
   }
+  
   public variant Ast : Located
   {
     | Rate

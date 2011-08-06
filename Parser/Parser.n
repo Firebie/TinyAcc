@@ -9,10 +9,10 @@ using Nemerle.Peg;
 
 namespace tinyacc
 {
-  [PegGrammar(start,
+  [PegGrammar(Options = EmitDebugSources, start,
   grammar
   {
-    any = ['\u0000'..'\uFFFF'];
+    Any = ['\u0000'..'\uFFFF'];
 
     #region White space
 
@@ -35,8 +35,8 @@ namespace tinyacc
 
     #region Comments
 
-    singleLineComment = "//" (!newLineCharacter any)*;
-    delimitedComment  = "/*" (!"*/" any)* "*/";
+    singleLineComment = "//" (!newLineCharacter Any)*;
+    delimitedComment  = "/*" (!"*/" Any)* "*/";
     comment           = singleLineComment / delimitedComment;
 
     #endregion
@@ -76,12 +76,12 @@ namespace tinyacc
     rate : Ast = "rate" space+ currencyName space+ currencyName space+ number semicolon;
     account : Ast = "account" space+ currencyName space+ number space+ accountName space* semicolon;
     creditOrDebit : Ast = ('+'/ '-') space* number space+ currencyName space+ accountName space+ operationName space* semicolon;
-    badRecord : Ast = (!semicolon any)* semicolon;
-    veryBadRecord : Ast = any+;
+    badRecord : Ast = (!semicolon Any)* semicolon;
+    veryBadRecord : Ast = Any+;
     
     definition : Ast = (rate / account / creditOrDebit / badRecord / veryBadRecord) space*;
     
-    start : List[Ast] = space* definition* !any;
+    start : List[Ast] = space* definition* !Any;
   })]
 
   public class AccParser
