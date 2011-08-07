@@ -20,9 +20,9 @@ namespace tinyacc
   {
     | Rate
       {
-        From : string;
-        To   : string;
-        Course       : double;
+        From   : string;
+        To     : string;
+        Course : double;
       }
 
     | Account 
